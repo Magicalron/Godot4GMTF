@@ -17,6 +17,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 Logger="*res://addons/gs_logger/logger.gd"
+Network="*res://Network.gd"
 
 [editor]
 
