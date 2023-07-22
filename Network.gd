@@ -57,21 +57,26 @@ func establish_signals():
 
 # Server Signals
 func incoming_connection( id: int )->void:
+	print("Server: Incoming connection from " + str( id ) )
 	emit_signal("PlayerConnected", id )
 
 func outgoing_connection( id: int )->void:
+	print("Server: Outgoing connection from " + str( id ) )
 	emit_signal("PlayerDisconnected", id )
 
 # Client Signals
 func server_connection_established()-> void:
 	multiplayer_id = multiplayer.get_unique_id()
+	print("Client: Connected to server with id " + str( multiplayer_id ) )
 	emit_signal("PlayerConnected", multiplayer_id )
 
 func server_disconnection():
+	print("Client: Server disconnected, id " + str( multiplayer_id ) )
 	emit_signal("PlayerDisconnected", multiplayer_id )
 
 func terminate_connection():
 	emit_signal("PlayerDisconnected", multiplayer_id )
+	print("Client: Disconnected from server with id " + str( multiplayer_id ) )
 	if peer != null:
 		peer.close()
 
