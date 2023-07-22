@@ -38,17 +38,21 @@ class TestServerMyObjectToTest:
 		serverTestObject.rpc("ping")
 		await yield_to( clientTestObject, "WasPinged", TIMEOUT )
 		assert_signal_emitted( clientTestObject, "WasPinged" )
+		assert_signal_not_emitted( serverTestObject, "WasPinged" )
 
 	func test_client_to_server_ping():
 		clientTestObject.rpc("ping")
 		await yield_to( serverTestObject, "WasPinged", TIMEOUT )
 		assert_signal_emitted( serverTestObject, "WasPinged" )
+		assert_signal_not_emitted( clientTestObject, "WasPinged" )
 
 	func test_authority_ping():
+		clientTestObject.rpc("authoritative_ping")
+		await yield_to( serverTestObject, "WasPinged", TIMEOUT )
+		assert_signal_not_emitted( serverTestObject, "WasPinged" )
+		assert_signal_not_emitted( clientTestObject, "WasPinged" )
+
 		serverTestObject.rpc("authoritative_ping")
 		await yield_to( clientTestObject, "WasPinged", TIMEOUT )
 		assert_signal_emitted( clientTestObject, "WasPinged" )
-
-		clientTestObject.rpc("authoritative_ping")
-		await yield_to( serverTestObject, "WasPinged", TIMEOUT )
 		assert_signal_not_emitted( serverTestObject, "WasPinged" )
