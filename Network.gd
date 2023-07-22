@@ -9,6 +9,8 @@ const LOCAL_HOST = "127.0.0.1"
 @export  var ip   = LOCAL_HOST
 @onready var peer = ENetMultiplayerPeer.new()
 
+var multiplayer_id = 0
+
 signal PlayerConnected( id )
 signal PlayerDisconnected( id )
 
@@ -46,6 +48,7 @@ func establish_signals():
 		# Connect the signals used by the server
 		multiplayer.peer_connected.connect( incoming_connection )
 		multiplayer.peer_disconnected.connect( outgoing_connection )
+		multiplayer_id = multiplayer.get_unique_id()
 	else:
 		# Connect the signals used by the client
 		multiplayer.connected_to_server.connect( server_connection_established )
@@ -61,14 +64,16 @@ func outgoing_connection( id: int )->void:
 
 # Client Signals
 func server_connection_established()-> void:
-	emit_signal("PlayerConnected", multiplayer.get_unique_id() )
+	multiplayer_id = multiplayer.get_unique_id()
+	emit_signal("PlayerConnected", multiplayer_id )
 
 func server_disconnection():
-	emit_signal("PlayerDisconnected", multiplayer.get_unique_id() )
+	emit_signal("PlayerDisconnected", multiplayer_id )
 
 func terminate_connection():
-	emit_signal("PlayerDisconnected", multiplayer.get_unique_id() )
-	peer.close()
+	emit_signal("PlayerDisconnected", multiplayer_id )
+	if peer != null:
+		peer.close()
 
 # On termination of this node, exit gracefully by disconnecting
 func _notification( what : int )-> void:
