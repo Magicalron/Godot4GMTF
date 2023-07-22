@@ -6,7 +6,7 @@ var multiplayer_api : MultiplayerAPI
 
 func _ready():
 	# Create the mock client instance
-	mock_client.create_client( Network.LOCALHOST, Network.DEFAULT_PORT, Network.MAX_CHANNELS )
+	mock_client.create_client( Network.LOCAL_HOST, Network.DEFAULT_PORT, Network.MAX_CHANNELS )
 
 	# Create a new MultiplayerAPI, this is different to the default one used by the scene tree
 	multiplayer_api = MultiplayerAPI.create_default_interface()
