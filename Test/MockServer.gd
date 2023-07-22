@@ -31,11 +31,11 @@ func _process(_delta: float) -> void:
 		multiplayer_api.poll()
 
 # Mock incoming connection, add what you want done here
-func incoming_connection( id: int ) ->void:
+func incoming_connection( _id: int ) ->void:
 	pass
 
 # Mock outgoing connection, add what you want done here
-func outgoing_connection( id: int )->void:
+func outgoing_connection( _id: int )->void:
 	pass
 
 # Exit the tree gracefully
